@@ -1,0 +1,32 @@
+[
+    {
+        "lezione":"Programmazione 1 teoria T2",
+        "giorno_orario":[["lun","12:30-14:30"],["mer","13:30-15:30"]],
+        "link":"https://unimib.webex.com/meet/simone.bianco"
+    },
+    {
+        "lezione":"Programmazione 1 pratica T2",
+        "giorno_orario":[["gio","16:30-18:30"]],
+        "link":"https://unimib.webex.com/meet/claudio.ferretti"
+    },
+    {
+        "lezione":"Analisi teoria T1",
+        "giorno_orario":[["mar","10:30-13:30"],["mer","10:30-12:30"]],
+        "link":"https://unimib.webex.com/meet/rita.pini"
+    },
+    {
+        "lezione":"Analisi pratica T1",
+        "giorno_orario":[["ven","15:30-18:30"]],
+        "link":"https://unimib.webex.com/meet/susanna.caimi"
+    },
+    {
+        "lezione":"Fondamenti dell'informatica teoria T2",
+        "giorno_orario":[["mar","15:30-17:30"],["mer","15:30-17:30"]],
+        "link":"DA PRENDERE IN AUTOMATICO CAZZO"
+    },
+    {
+        "lezione":"Fondamenti dell'informatica pratica T2",
+        "giorno_orario":[["ven","10:30-13:30"]],
+        "link":"https://unimib.webex.com/meet/marta.giltri"
+    }
+]
