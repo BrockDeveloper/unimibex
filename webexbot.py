@@ -1,18 +1,15 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, time
 from discord.ext import commands
 
 
-
-
-
-DS_TOKEN = "OTAwMDQzNjczNDIzNzIwNTU5.YW7k_Q.Gc226SwrlWIaTo2gweKVLQtYuGw"      # accesso al bot tramite token
-DS_CMD = "^"                                                                  # comando di attivazione del bot
+DS_TOKEN = "OTAwMDQzNjczNDIzNzIwNTU5.YW7k_Q.Gc226SwrlWIaTo2gweKVLQtYuGw"      # accesso al bot tramite token        brock = OTAwMDQzNjczNDIzNzIwNTU5.YW7k_Q.Gc226SwrlWIaTo2gweKVLQtYuGw
+DS_CMD = "^"                                                                  # comando di attivazione del bot      lory = OTAwMTYwNTY1NDc1OTU4ODI1.YW9R2g.I3-j3Xu8JddxiBAYoQ4KNLoqp1M
 
 
 # restituisce il giorno e l'ora corrente
-def retrive_datetime():
+def retrieve_datetime():
     # data e ora corrente
     now = datetime.now()
 
@@ -42,6 +39,11 @@ async def on_ready():
 @client.command(aliases=["vl"])
 async def _vl(ctx):
     await ctx.send(f'ciao')
+
+# comando: invia la data e l'ora                                        da sistemare - brock spiegami come si fa che non ho capito tanto bene i dict anche se mi sa che sono stra easy
+@client.command(aliases=["data"])
+async def _data(ctx):
+    await ctx.send(retrieve_datetime())
 
 # avvio del bot e running loop
 client.run(DS_TOKEN)
