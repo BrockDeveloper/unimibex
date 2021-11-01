@@ -1,0 +1,14 @@
+[
+    {
+        "day":0,
+        "begin_at":"15:30",
+        "end_at":"17:30",
+        "link":"https://unimib.webex.com/meet/simone.bianco"
+    },
+    {
+        "day":1,
+        "begin_at":"12:30",
+        "end_at":"15:30",
+        "link":"https://unimib.webex.com/meet/claudio.ferretti"
+    }
+]
