@@ -1,49 +1,70 @@
-import os
+# Brock DEV and LoryPota
+# See LICENSE file.
+#
+# Developed by
+# Brock DEV (https://github.com/BrockDeveloper).
+# WebSite: https://brockdev.it
+#
+# This source code is distributed under the CC BY-NC-SA 4.0 license:
+# https://creativecommons.org/licenses/by-nc-sa/4.0/
+# you are FREE to SHARE and ADAPT UNDER THE FOLLOWING TERMS:
+# 
+# ATTRIBUTION You must give appropriate credit, provide a link to the
+# license, and indicate if changes were made.
+#
+# NON COMMERCIAL You may not use the material for commercial purposes.
+#
+# SHARE ALIKE If you remix, transform, or build upon the material, you
+# must distribute your contributions under the same license as the original.
+#
+#
+# This source code is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY.
+#
+
+
+import urllib.request
 import json
+import pyperclip
+import webbrowser
 from datetime import datetime, time
-from discord.ext import commands
+
+# link to the json blob: shared lesson links
+SHARED_DATA = "xxxx"
+
+# private key to retrive and decrypt a lesson link
+KEY = b'xxxx'
 
 
-DS_TOKEN = "OTAwMDQzNjczNDIzNzIwNTU5.YW7k_Q.Gc226SwrlWIaTo2gweKVLQtYuGw"      # accesso al bot tramite token        brock = OTAwMDQzNjczNDIzNzIwNTU5.YW7k_Q.Gc226SwrlWIaTo2gweKVLQtYuGw
-DS_CMD = "^"                                                                  # comando di attivazione del bot      lory = OTAwMTYwNTY1NDc1OTU4ODI1.YW9R2g.I3-j3Xu8JddxiBAYoQ4KNLoqp1M
-
-
-# restituisce il giorno e l'ora corrente
+# return the currente date and time of the system
 def retrieve_datetime():
-    # data e ora corrente
+
     now = datetime.now()
 
-    # ora corrente e giorno della settimana
     current_datetime = {
-        "time":now.time(),
+        "time":now.strftime("%H:%M"),
         "dotw":now.date().weekday()
     }
 
     return current_datetime
-    
 
 
-# legge le informazioni sulle lezioni
-with open("link.json") as f:
-    lista_lezioni = json.load(f)
+if __name__ == "__main__":
 
-# instaurazione della connessione con discord
-client = commands.Bot(command_prefix=DS_CMD)
+    # retrive the json blob from the server and decode it
+    with urllib.request.urlopen(SHARED_DATA) as url:
+        lessons = json.loads(url.read().decode())
 
-# evento: messaggio di attivazione del bot
-@client.event
-async def on_ready():
-    print(f'{client.user} è attivo')
+    # retrive current date and time from the system
+    current_datetime = retrieve_datetime()
 
-# comando: invia il link della lezione con la richiesta
-@client.command(aliases=["vl"])
-async def _vl(ctx):
-    await ctx.send(f'ciao')
+    # check if there is a lesson
+    for lesson in lessons:
+        if lesson.get("day")==current_datetime.get("dotw"):
+            if current_datetime.get("time")>=lesson.get("begin_at") and current_datetime.get("time")<=lesson.get("end_at"):
+                # open the chrome tab on the webex link
+                webbrowser.open(lesson.get("link"))
 
-# comando: invia la data e l'ora                                        da sistemare - brock spiegami come si fa che non ho capito tanto bene i dict anche se mi sa che sono stra easy
-@client.command(aliases=["data"])
-async def _data(ctx):
-    await ctx.send(retrieve_datetime())
-
-# avvio del bot e running loop
-client.run(DS_TOKEN)
+                # if there is a password, it will be copied to clipboard
+                if "pass" in lesson:
+                    pyperclip.copy(lesson.get("pass"))
