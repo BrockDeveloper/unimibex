@@ -20,20 +20,19 @@
 #
 # This source code is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#
 
 
 import urllib.request
 import json
 import pyperclip
 import webbrowser
-from datetime import datetime, time
+from datetime import datetime
+from cryptography.fernet import Fernet
 
-# link to the json blob: shared lesson links
-SHARED_DATA = "xxxx"
 
-# private key to retrive and decrypt a lesson link
-KEY = b'xxxx'
+SHARED_DATA = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # link to the json blob: shared lesson links
+KEY = b'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'                    # private key to retrive and decrypt a lesson link
+CODER = Fernet(KEY)                                                      # crittografia con la chiave definita
 
 
 # return the currente date and time of the system
@@ -60,11 +59,16 @@ if __name__ == "__main__":
 
     # check if there is a lesson
     for lesson in lessons:
+
+        #check if the lesson is today (in the current date is day of the week)
         if lesson.get("day")==current_datetime.get("dotw"):
+
+            #check if the time is now (in the current date is time)
             if current_datetime.get("time")>=lesson.get("begin_at") and current_datetime.get("time")<=lesson.get("end_at"):
-                # open the chrome tab on the webex link
-                webbrowser.open(lesson.get("link"))
+
+                # open the chrome tab (or the default web browser software) on the webex link
+                webbrowser.open(CODER.decrypt(lesson.get("link").encode()).decode())
 
                 # if there is a password, it will be copied to clipboard
                 if "pass" in lesson:
-                    pyperclip.copy(lesson.get("pass"))
+                    pyperclip.copy(CODER.decrypt(lesson.get("pass").encode()).decode())
