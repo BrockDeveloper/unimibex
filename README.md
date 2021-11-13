@@ -1,6 +1,18 @@
-![](https://user-images.githubusercontent.com/68703282/141659311-e53011a7-38cc-492e-ab3a-7f8e59049729.png | width=100) 
+![logo-min](https://user-images.githubusercontent.com/68703282/141659503-40e275ae-ee44-4786-bb50-7daac705af1f.png)
 
-![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png | width=100)
 
 # Unimibex
-### one-click UnimiB Webex link opener
+one-click UnimiB Webex link opener
+
+### Installazione
+- elenco puntato
+- per gli step
+- di installazione
+
+### Utilizzo
+- elenco puntato
+- per far vedere
+- come si utilizza
+
+### Dev
+sezione sviluppatori, aggiungere link per il file json e per la chiave di crittografia
