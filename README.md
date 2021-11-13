@@ -1,6 +1,3 @@
-![logo-min](https://user-images.githubusercontent.com/68703282/141659503-40e275ae-ee44-4786-bb50-7daac705af1f.png)
-
-
 # Unimibex
 one-click UnimiB Webex link opener
 
