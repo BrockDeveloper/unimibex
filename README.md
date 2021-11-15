@@ -1,10 +1,8 @@
 # Unimibex
-one-click UnimiB Webex link opener
+one-click UniMiB Webex link opener
 
-### Installazione
-- elenco puntato
-- per gli step
-- di installazione
+### Funzionalità
+Apertura automatica dei link dei meet Webex UniMiB.
 
 ### Utilizzo
 - elenco puntato
