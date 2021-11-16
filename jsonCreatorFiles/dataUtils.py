@@ -46,7 +46,7 @@ def getUniversityInformations(url, year):
     # If we are fine
     if sourceCode.status_code == 200:
         # What we are going to return
-        output = {"schools" : {}, "classes" : {}}
+        output = {"schools" : {}, "classes" : []}
         '''
             Here we have a bounch of hard coded stuff.
             At the end we return "output" with everything we need inside
@@ -60,9 +60,9 @@ def getUniversityInformations(url, year):
             output["schools"][school["label"]] = school["valore"]
 
         courses = sourceCode[0]
-        for course in courses.split('"elenco_anni')[1:-1]:
+        for course in courses.split('"elenco_anni')[1:]:
             course = json.loads('{"elenco_anni' + course[:course.rindex('}') + 1])
-            output["classes"][course["label"]] = course
+            output["classes"].append(course)
 
         return output
         # list(output["classes"].keys())
