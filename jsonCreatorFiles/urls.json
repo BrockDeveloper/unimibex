@@ -1,0 +1,6 @@
+{
+  "search" : "https://gestioneorari.didattica.unimib.it/PortaleStudentiUnimib/index.php?view=easycourse&_lang=it&include=corso",
+  "years" : "https://gestioneorari.didattica.unimib.it/PortaleStudentiUnimib/combo.php?sw=ec_&aa=1&_=1637094880720",
+  "courses" : "https://gestioneorari.didattica.unimib.it/PortaleStudentiUnimib/combo.php?sw=ec_&aa={ANNO}&page=corsi&_=1637094880721",
+  "classes" : "https://gestioneorari.didattica.unimib.it/PortaleStudentiUnimib/grid_call.php"
+}
