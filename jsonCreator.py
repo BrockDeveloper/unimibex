@@ -41,6 +41,15 @@ def requestFromKeys(keys):
         if -1 < choose < keys.__len__():
             return list(keys.keys())[choose]
 
+def requestFromList(_list):
+    while True:
+        for i, key in enumerate(_list):
+            print("%s) %s" % (i + 1, key["label"]))
+
+        choose = int(input("Choose: ")) - 1
+        if -1 < choose < _list.__len__():
+            return _list[choose]
+
 def getClassesFromSchool(dataset, school):
     return [x for x in dataset if x["scuola"] == school]
 
@@ -53,7 +62,6 @@ def requestKindOfStudy(classes):
         choose = int(input("Choose: ")) - 1
         if -1 < choose < classes.__len__():
             return classes[choose]
-
 
 
 if __name__ == "__main__":
@@ -76,6 +84,8 @@ if __name__ == "__main__":
 
         kindStudy = requestKindOfStudy(classes)
 
+        yearStudy = requestFromList(kindStudy["elenco_anni"])
 
+        a = 0
 
 
