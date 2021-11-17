@@ -65,7 +65,6 @@ def getUniversityInformations(url, year):
             output["classes"].append(course)
 
         return output
-        # list(output["classes"].keys())
     # Print error and return nothing
     else:
         print(sourceCode.content)

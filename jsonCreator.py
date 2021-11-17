@@ -22,7 +22,6 @@
 
 '''
     TODO:
-    - Ricava anno accademico, corso di studio, anno di studio
     - Ricava l'orario
     - Trasforma l'orario in un dizionario
     - Salva il dizionario
@@ -33,6 +32,30 @@
 
 from jsonCreatorFiles.dataUtils import *
 
+def requestFromKeys(keys):
+    while True:
+        for i, key in enumerate(keys.keys()):
+            print("%s) %s" % (i + 1, key))
+
+        choose = int(input("Choose: ")) - 1
+        if -1 < choose < keys.__len__():
+            return list(keys.keys())[choose]
+
+def getClassesFromSchool(dataset, school):
+    return [x for x in dataset if x["scuola"] == school]
+
+def requestKindOfStudy(classes):
+    # classes[0]["valore"] + " - " + classes[0]["label"] + " (" + classes[0]["tipo"] + ")"
+    while True:
+        for i, key in enumerate(classes):
+            print("%s) %s - %s (%s)" % (i+1, key["valore"], key["label"], key["tipo"]))
+
+        choose = int(input("Choose: ")) - 1
+        if -1 < choose < classes.__len__():
+            return classes[choose]
+
+
+
 if __name__ == "__main__":
     # Get every urls
     urls = json.load(open("./jsonCreatorFiles/urls.json", "r"))
@@ -41,9 +64,18 @@ if __name__ == "__main__":
     if years.__len__() == 0:
         quit(-1)
 
-    informations = getUniversityInformations(urls["courses"], "2021")
+    while True:
+
+        year = requestFromKeys(years)
+
+        informations = getUniversityInformations(urls["courses"], year)
+
+        school = requestFromKeys(informations["schools"])
+
+        classes = getClassesFromSchool(informations["classes"], informations["schools"][school])
+
+        kindStudy = requestKindOfStudy(classes)
 
 
-'''
-view=easycourse&form-type=corso&include=corso&txtcurr=1+-+PERCORSO+COMUNE+T1&anno=2021&scuola=AreaScientifica-Informatica&corso=E3101Q&anno2%5B%5D=GGG_T1%7C1&date=16-11-2021&periodo_didattico=&_lang=it&list=0&week_grid_type=-1&ar_codes_=&ar_select_=&col_cells=0&empty_box=0&only_grid=0&highlighted_date=0&all_events=0&faculty_group=0&_lang=it&all_events=0&txtcurr=1 - PERCORSO COMUNE T1
-'''
+
+
