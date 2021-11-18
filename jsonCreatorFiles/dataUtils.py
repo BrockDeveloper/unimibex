@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
+from datetime import datetime
 
 header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:93.0) Gecko/20100101 Firefox/93.0",
           "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -37,8 +38,8 @@ def getYears(url):
         print(sourceCode.content)
         return ""
 
-def getUniversityInformations(url, year):
 
+def getUniversityInformations(url, year):
     sourceCode = requests.get(
         url.replace("{YEAR}", year),
         headers=header)
@@ -46,7 +47,7 @@ def getUniversityInformations(url, year):
     # If we are fine
     if sourceCode.status_code == 200:
         # What we are going to return
-        output = {"schools" : {}, "classes" : []}
+        output = {"schools": {}, "classes": []}
         '''
             Here we have a bounch of hard coded stuff.
             At the end we return "output" with everything we need inside
@@ -69,3 +70,18 @@ def getUniversityInformations(url, year):
     else:
         print(sourceCode.content)
         return ""
+
+
+def getSubjects(url, params, year, courses, school, idClasse):
+    requestPost = params.replace("{COURSE}", courses["valore"]) \
+        .replace("{YEAR}", year) \
+        .replace("{SCHOOL}", school) \
+        .replace("{ID}", idClasse) \
+        .replace("{DATE}", getDateToday())
+
+    response = requests.post(url, headers=header, data=requestPost)
+    a = 0
+
+
+def getDateToday():
+    return datetime.today().strftime('%d-%m-%Y')

@@ -84,8 +84,10 @@ if __name__ == "__main__":
 
         kindStudy = requestKindOfStudy(classes)
 
-        yearStudy = requestFromList(kindStudy["elenco_anni"])
+        listCourses = requestFromList(kindStudy["elenco_anni"])
 
-        a = 0
+        subjects = getSubjects(urls["classes"], urls["params"], year, listCourses, informations["schools"][school], kindStudy["valore"])
+
+
 
 
