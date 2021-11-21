@@ -17,6 +17,25 @@ header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:93.0) 
           "Sec-Fetch-Site": "same-origin",
           "Sec-Fetch-User": "?1"}
 
+# idk why but they want a different header
+headerCourses = {"Host": "gestioneorari.didattica.unimib.it",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0",
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Language": "it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Referer": "https://gestioneorari.didattica.unimib.it/PortaleStudentiUnimib/index.php?view=easycourse&form-type=corso&include=corso&txtcurr=1+-+PERCORSO+COMUNE+T1&anno=2021&scuola=AreaScientifica-Informatica&corso=E3101Q&anno2%5B%5D=GGG_T1%7C1&date=18-11-2021&periodo_didattico=&_lang=it&list=0&week_grid_type=-1&ar_codes_=&ar_select_=&col_cells=0&empty_box=0&only_grid=0&highlighted_date=0&all_events=0&faculty_group=0",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Length": "386",
+                "Origin": "https://gestioneorari.didattica.unimib.it",
+                "DNT": "1",
+                "Connection": "keep-alive",
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "no-cors",
+                "Sec-Fetch-Site": "same-origin",
+                "Pragma": "no-cache",
+                "Cache-Control": "no-cache"}
+
 
 def getFormattedWebsite(url):
     return BeautifulSoup(requests.get(url, headers=header).text, features="lxml")
@@ -73,14 +92,14 @@ def getUniversityInformations(url, year):
 
 
 def getSubjects(url, params, year, courses, school, idClasse):
-    requestPost = params.replace("{COURSE}", courses["valore"]) \
-        .replace("{YEAR}", year) \
-        .replace("{SCHOOL}", school) \
-        .replace("{ID}", idClasse) \
-        .replace("{DATE}", getDateToday())
-
-    response = requests.post(url, headers=header, data=requestPost)
-    a = 0
+    requestPost = params.replace("{COURSELABEL}", courses["label"].replace(" ", "+"))\
+                .replace("{YEAR}", year) \
+                .replace("{SCHOOL}", school)\
+                .replace("{ID}", idClasse) \
+                .replace("{COURSEVALORE}", courses["valore"].replace('|', "%7C")) \
+                .replace("{DATE}", getDateToday())
+    response = requests.post(url, headers=headerCourses, data=requestPost)
+    print(response.text)
 
 
 def getDateToday():
