@@ -62,6 +62,24 @@ def requestKindOfStudy(classes):
         choose = int(input("Choose: ")) - 1
         if -1 < choose < classes.__len__():
             return classes[choose]
+        
+        
+def askLinks(subjects):
+    a = 0
+    output = []
+    for subject in subjects:
+        print("Day: %s, start: %s, end: %s" % (subject["dayString"], subject["start"], subject["end"]))
+        print("Teachers: ", end='')
+        for teacher in subject["teachers"]:
+            print(teacher, end=', ')
+        link = input("\nLink (no for skipping this): ")
+        if link != "no":
+            subject["link"] = link
+            output.append(subject)
+    return output
+
+def save(subjects):
+    pass
 
 
 if __name__ == "__main__":
@@ -75,19 +93,35 @@ if __name__ == "__main__":
     while True:
 
         year = requestFromKeys(years)
+        if year.__len__() == 0:
+            continue
 
         informations = getUniversityInformations(urls["courses"], year)
+        if informations.__len__() == 0:
+            continue
 
         school = requestFromKeys(informations["schools"])
+        if school.__len__() == 0:
+            continue
 
         classes = getClassesFromSchool(informations["classes"], informations["schools"][school])
+        if classes.__len__() == 0:
+            continue
 
         kindStudy = requestKindOfStudy(classes)
+        if kindStudy.__len__() == 0:
+            continue
 
         listCourses = requestFromList(kindStudy["elenco_anni"])
+        if listCourses.__len__() == 0:
+            continue
 
         subjects = getSubjects(urls["classes"], urls["params"], year, listCourses, informations["schools"][school], kindStudy["valore"])
+        if subjects.__len__() == 0:
+            continue
 
+        subjectsWithLink = askLinks(subjects)
+        if subjectsWithLink.__len__() == 0:
+            continue
 
-
-
+        save(subjectsWithLink)
