@@ -6,13 +6,21 @@ from cryptography.fernet import Fernet
 # personal key
 KEY = b'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
-# crypto with the personal key
-coder = Fernet(KEY)
+def cryptText(text):
+    coder = Fernet(KEY)
 
-# get the plain link
-original = input("Link da crittografare: ")
+    encrypted = coder.encrypt(text.encode())
 
-encrypted = coder.encrypt(original.encode())
+    print(encrypted.decode())
+    pyperclip.copy(encrypted.decode())
 
-print(encrypted.decode())
-pyperclip.copy(encrypted.decode())
+if __name__ == "__main__":
+
+    # crypto with the personal key
+    coder = Fernet(KEY)
+
+    # get the plain link
+    original = input("Link da crittografare: ")
+
+    cryptText(original)
+
