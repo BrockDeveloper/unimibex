@@ -75,6 +75,11 @@ def askLinks(subjects):
         link = input("\nLink (no for skipping this): ")
         if link != "no":
             subject["link"] = link
+
+            password = input("Password (empty if nothing): ")
+            if password.__len__() != 0:
+                subject["password"] = password
+
             output.append(subject)
     return output
 
