@@ -30,7 +30,9 @@
     - La persona può scegliere più anni accademici e più giorni
 '''
 
-from jsonCreatorFiles.dataUtils import *
+from utils.dataUtils import *
+from utils.cryptUtils import *
+
 
 def requestFromKeys(keys):
     while True:
@@ -68,12 +70,12 @@ def askLinks(subjects):
     a = 0
     output = []
     for subject in subjects:
-        print("Day: %s, start: %s, end: %s" % (subject["dayString"], subject["start"], subject["end"]))
+        print("Lesson: %s\n Day: %s, start: %s, end: %s" % (subject["lesson"], subject["dayString"], subject["start"], subject["end"]))
         print("Teachers: ", end='')
         for teacher in subject["teachers"]:
             print(teacher, end=', ')
         link = input("\nLink (no for skipping this): ")
-        if link != "no":
+        if link != "no" and link.__len__() > 0:
             subject["link"] = link
 
             password = input("Password (empty if nothing): ")
@@ -83,13 +85,27 @@ def askLinks(subjects):
             output.append(subject)
     return output
 
+
+# noinspection PyShadowingNames
 def save(subjects):
-    pass
+    output = []
+    for subject in subjects:
+        newLesson = {"LESSON": subject["lesson"], "day": subject["day"],
+                     "begin_at": subject["start"], "end_at": subject["end"],
+                     "link": cryptText(subject["link"], returnValue=True)}
+        if list(subject.keys()).__contains__("password"):
+            newLesson["pass"] = cryptText(subject["password"], returnValue=True)
+        output.append(newLesson)
+
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(output, f, ensure_ascii=False, indent=4)
+
+
 
 
 if __name__ == "__main__":
     # Get every urls
-    urls = json.load(open("./jsonCreatorFiles/urls.json", "r"))
+    urls = json.load(open("utils/urls.json", "r"))
     # Get every years and throw error if there is a problem
     years = getYears(urls["years"])
     if years.__len__() == 0:

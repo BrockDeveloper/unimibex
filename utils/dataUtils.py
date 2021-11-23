@@ -126,8 +126,9 @@ def getSubjects(url, params, year, courses, school, idClasse):
     for course in dataset["celle"]:
         day = int(course["numero_giorno"]) - 1
         output.append({"teachers": course["docente"].strip().split(","),
+                       "lesson": course["nome_insegnamento"],
                        "day": day,
-                       "dayString" : dataset["giorni"][day]["label"].split(" ")[0],
+                       "dayString": dataset["giorni"][day]["label"].split(" ")[0],
                        "start": course["ora_inizio"], "end": course["ora_fine"], "room": course["aula"]})
 
     return output
