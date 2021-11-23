@@ -20,18 +20,13 @@
 # This source code is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
 
-'''
-    TODO:
-    - Ricava l'orario
-    - Trasforma l'orario in un dizionario
-    - Salva il dizionario
-
+"""
     Ricorda:
     - La persona può scegliere più anni accademici e più giorni
-'''
+"""
 
-from utils.dataUtils import *
-from utils.cryptUtils import *
+from utils import dataUtils, cryptUtils
+import json
 
 
 def requestFromKeys(keys):
@@ -43,6 +38,7 @@ def requestFromKeys(keys):
         if -1 < choose < keys.__len__():
             return list(keys.keys())[choose]
 
+
 def requestFromList(_list):
     while True:
         for i, key in enumerate(_list):
@@ -52,25 +48,28 @@ def requestFromList(_list):
         if -1 < choose < _list.__len__():
             return _list[choose]
 
-def getClassesFromSchool(dataset, school):
-    return [x for x in dataset if x["scuola"] == school]
 
-def requestKindOfStudy(classes):
+def getClassesFromSchool(dataset, schoolDataset):
+    return [x for x in dataset if x["scuola"] == schoolDataset]
+
+
+def requestKindOfStudy(classesDataset):
     # classes[0]["valore"] + " - " + classes[0]["label"] + " (" + classes[0]["tipo"] + ")"
     while True:
-        for i, key in enumerate(classes):
-            print("%s) %s - %s (%s)" % (i+1, key["valore"], key["label"], key["tipo"]))
+        for i, key in enumerate(classesDataset):
+            print("%s) %s - %s (%s)" % (i + 1, key["valore"], key["label"], key["tipo"]))
 
         choose = int(input("Choose: ")) - 1
-        if -1 < choose < classes.__len__():
-            return classes[choose]
-        
-        
-def askLinks(subjects):
-    a = 0
+        if -1 < choose < classesDataset.__len__():
+            return classesDataset[choose]
+
+
+def askLinks(subjectsDataset):
     output = []
-    for subject in subjects:
-        print("Lesson: %s\n Day: %s, start: %s, end: %s" % (subject["lesson"], subject["dayString"], subject["start"], subject["end"]))
+    for subject in subjectsDataset:
+        print("Lesson: %s\n Day: %s, start: %s, end: %s" % (
+            subject["lesson"], subject["dayString"], subject["start"], subject["end"]
+        ))
         print("Teachers: ", end='')
         for teacher in subject["teachers"]:
             print(teacher, end=', ')
@@ -92,22 +91,20 @@ def save(subjects):
     for subject in subjects:
         newLesson = {"LESSON": subject["lesson"], "day": subject["day"],
                      "begin_at": subject["start"], "end_at": subject["end"],
-                     "link": cryptText(subject["link"], returnValue=True)}
+                     "link": cryptUtils.cryptText(subject["link"], returnValue=True)}
         if list(subject.keys()).__contains__("password"):
-            newLesson["pass"] = cryptText(subject["password"], returnValue=True)
+            newLesson["pass"] = cryptUtils.cryptText(subject["password"], returnValue=True)
         output.append(newLesson)
 
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=4)
 
 
-
-
 if __name__ == "__main__":
     # Get every urls
     urls = json.load(open("utils/urls.json", "r"))
     # Get every years and throw error if there is a problem
-    years = getYears(urls["years"])
+    years = dataUtils.getYears(urls["years"])
     if years.__len__() == 0:
         quit(-1)
 
@@ -117,7 +114,7 @@ if __name__ == "__main__":
         if year.__len__() == 0:
             continue
 
-        informations = getUniversityInformations(urls["courses"], year)
+        informations = dataUtils.getUniversityInformations(urls["courses"], year)
         if informations.__len__() == 0:
             continue
 
@@ -137,7 +134,8 @@ if __name__ == "__main__":
         if listCourses.__len__() == 0:
             continue
 
-        subjects = getSubjects(urls["classes"], urls["params"], year, listCourses, informations["schools"][school], kindStudy["valore"])
+        subjects = dataUtils.getSubjects(urls["classes"], urls["params"], year, listCourses,
+                                         informations["schools"][school], kindStudy["valore"])
         if subjects.__len__() == 0:
             continue
 
