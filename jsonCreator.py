@@ -108,6 +108,8 @@ if __name__ == "__main__":
     if years.__len__() == 0:
         quit(-1)
 
+    toSave = []
+
     while True:
 
         year = requestFromKeys(years)
@@ -143,4 +145,9 @@ if __name__ == "__main__":
         if subjectsWithLink.__len__() == 0:
             continue
 
-        save(subjectsWithLink)
+        toSave.extend(subjectsWithLink)
+        choose = input("Save or continue? (Save/Continue)")
+
+        if choose.lower() == "save":
+            save(toSave)
+            toSave.clear()
