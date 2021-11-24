@@ -3,10 +3,9 @@ import pyperclip
 
 # personal key
 KEY = b'yBwTtp2U1JkO64DJkQZ8fhK6ROpSos5P3qTguW4yFGE='
-
+coder = Fernet(KEY)
 
 def cryptText(text, returnValue=False):
-    coder = Fernet(KEY)
 
     encrypted = coder.encrypt(text.encode())
 
