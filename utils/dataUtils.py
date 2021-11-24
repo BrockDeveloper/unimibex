@@ -3,6 +3,8 @@ import requests
 import json
 from datetime import datetime
 
+from utils import cryptUtils
+
 header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:93.0) Gecko/20100101 Firefox/93.0",
           "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
           "Accept-Language": "it-IT,it;q=0.8,en-US;q=0.5,en;q=0.3",
@@ -133,6 +135,19 @@ def getSubjects(url, params, year, courses, school, idClasse):
 
     return output
 
+# noinspection PyShadowingNames
+def save(subjects):
+    output = []
+    for subject in subjects:
+        newLesson = {"LESSON": subject["lesson"], "day": subject["day"],
+                     "begin_at": subject["start"], "end_at": subject["end"],
+                     "link": cryptUtils.cryptText(subject["link"], returnValue=True)}
+        if list(subject.keys()).__contains__("password"):
+            newLesson["pass"] = cryptUtils.cryptText(subject["password"], returnValue=True)
+        output.append(newLesson)
+
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(output, f, ensure_ascii=False, indent=4)
 
 def getDateToday():
     return datetime.today().strftime('%d-%m-%Y')
