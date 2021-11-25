@@ -1,0 +1,4 @@
+# Mac invisible file
+.DS_STORE
+# Intellij stuff
+.idea
